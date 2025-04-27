@@ -5,11 +5,22 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prisma:g": "prisma generate client_dev && prisma db push",
     "dev": "nodemon",
-    "prisma:g": "prisma generate && prisma db push",
-    "start":    "prisma generate && prisma db push && node src/server.js"
+    "start": "prisma generate && prisma db push && node src/server.js"
   },
-  "keywords": ["gym", "management", "system", "api", "rest", "typescript", "prisma", "backend", "node", "express"],
+  "keywords": [
+    "gym",
+    "management",
+    "system",
+    "api",
+    "rest",
+    "typescript",
+    "prisma",
+    "backend",
+    "node",
+    "express"
+  ],
   "author": "",
   "repository": {
     "type": "git",
