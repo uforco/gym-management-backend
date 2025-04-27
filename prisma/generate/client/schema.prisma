@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generate/client"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  email     String     @unique
+  password  String
+  role      Role
+  profile   Profile?
+  bookings  Booking[]
+  schedules Schedule[] @relation("TrainerSchedules")
+}
+
+model Profile {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @db.ObjectId
+  name   String
+  age    Int
+  phone  String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Schedule {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
+  trainerId String    @db.ObjectId
+  trainer   User      @relation("TrainerSchedules", fields: [trainerId], references: [id])
+  bookings  Booking[]
+}
+
+model Booking {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  scheduleId String   @db.ObjectId
+  traineeId  String   @db.ObjectId
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+  trainee    User     @relation(fields: [traineeId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  TRAINER
+  TRAINEE
+}
